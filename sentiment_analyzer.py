@@ -6,6 +6,8 @@ from transformers import pipeline
 from scipy.special import softmax
 from nltk.sentiment import SentimentIntensityAnalyzer
 from tqdm.notebook import tqdm
+import nltk
+
 
 plt.style.use('ggplot')
 
@@ -86,7 +88,7 @@ def get_results(df, news, debug=False):
         return res
 
 
-def check_prediction(df, tar, sco, debug=False):
+def check_prediction(df, tar, sco, neutral, debug=False):
     predict_dict = {}
     fail = {}
     n = 0
@@ -95,18 +97,17 @@ def check_prediction(df, tar, sco, debug=False):
         try:
             target = row[tar]
             score = row[sco]
-            ## if score == 0 & df[tar][i - 1]/df[tar][i] > 0:
-
-            if score/target > 0:
-                predict_dict[i] = 1
-            elif score/target < 0:
-                predict_dict[i] = 0
-            elif df[tar][i - 1]/df[tar][i] > 0:
+            if abs(target) > neutral:
+                if (target / score) > 0:
+                    predict_dict[i] = 1
+                elif (target / score) < 0:
+                    predict_dict[i] = 0
+            elif score == 0:
                 predict_dict[i] = 1
             else:
                 predict_dict[i] = 0
         except KeyError:
-            predict_dict[i] = 0
+            predict_dict[i] = 'null'
         except:
             if debug:
                 fail[n] = i
