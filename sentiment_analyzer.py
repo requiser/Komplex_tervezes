@@ -8,24 +8,59 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from tqdm.notebook import tqdm
 import nltk
 
-
 plt.style.use('ggplot')
 
 sia = SentimentIntensityAnalyzer()
 
 MODEL = f"mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
-model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+model = (AutoModelForSequenceClassification
+         .from_pretrained(MODEL))
+pipe = pipeline("sentiment-analysis",
+                model=tokenizer,
+                tokenizer=model)
 
-sent_pipeline = pipeline("sentiment-analysis",
-                         model=model,
-                         tokenizer=tokenizer)
+
+# MODELRoberta = f"mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis"
+# tokenizerRoberta = AutoTokenizer.from_pretrained(MODELRoberta)
+# modelRoberta = (AutoModelForSequenceClassification
+#                 .from_pretrained(MODELRoberta))
+# pipeRoberta = pipeline("sentiment-analysis",
+#                        model=tokenizerRoberta,
+#                        tokenizer=modelRoberta)
+#
+# MODELFinbert = f"ProsusAI/finbert"
+# tokenizerFinbert = AutoTokenizer.from_pretrained(MODELFinbert)
+# modelFinbert = (AutoModelForSequenceClassification
+#                 .from_pretrained(MODELFinbert))
+# pipeFinbert = pipeline("sentiment-analysis",
+#                        model=tokenizerFinbert,
+#                        tokenizer=modelFinbert)
 
 
-def polarity_scores_roberta(example):
+def prepare_dataset(source):
+    dataset = pd.read_csv(source)
+    dataset.drop(dataset.columns[dataset.columns.str.contains('unnamed',
+                                                              case=False)],
+                 axis=1, inplace=True)
+    ## dataset["Tomorrow"] = dataset["Adj Close"].shift(-1)
+    dataset["Tomorrow"] = (dataset["High"].shift(-1) + dataset["Low"].shift(-1)) / 2
+
+    ## dataset["Target"] = (dataset["Tomorrow"] / aapl_news["Adj Close"]-1)
+    dataset["Target"] = (dataset["Tomorrow"] / ((dataset["High"] + dataset["Low"]) / 2) - 1)
+    return dataset
+
+
+def polarity_scores(example, model):
     example = example[:514]
-    encoded_text = tokenizer(example, return_tensors='pt')
-    output = model(**encoded_text)
+    match model:
+        case "finbert":
+            encoded_text = tokenizerFinbert(example, return_tensors='pt')
+            output = modelFinbert(**encoded_text)
+        case "roberta":
+            encoded_text = tokenizerRoberta(example, return_tensors='pt')
+            output = modelFinbert(**encoded_text)
+
     scores = output[0][0].detach().numpy()
     scores = softmax(scores)
     scores_dict = {
@@ -36,7 +71,7 @@ def polarity_scores_roberta(example):
     return scores_dict
 
 
-def get_results(df, news, debug=False):
+def get_results(df, news, model, debug=False):
     res = {}
     fail = {}
     n = 0
@@ -45,14 +80,14 @@ def get_results(df, news, debug=False):
         text = row[news]
         try:
             if pd.isna(text):
-                roberta_result = {
+                polarity_results = {
                     'roberta_neg': 0,
                     'roberta_neu': 1,
                     'roberta_pos': 0
                 }
 
             else:
-                roberta_result = polarity_scores_roberta(text)
+                polarity_results = polarity_scores(text, model)
 
         except (IndexError, RuntimeError):
             if pd.isna(text) & debug:
@@ -60,13 +95,13 @@ def get_results(df, news, debug=False):
             elif debug:
                 fail[n] = text
                 n += 1
-            roberta_result = {
+            polarity_results = {
                 'roberta_neg': 0,
                 'roberta_neu': 0,
                 'roberta_pos': 0
             }
             pass
-        res[i] = roberta_result
+        res[i] = polarity_results
 
     res = pd.DataFrame(res).T
 
@@ -123,7 +158,7 @@ def check_prediction(df, tar, sco, neutral, debug=False):
         return predictions
 
 
-def get_results_with_pipe(df, news, debug=False):
+def get_results_with_pipe(df, news, model, debug=False):
     res = {}
     fail = {}
     n = 0
@@ -132,12 +167,16 @@ def get_results_with_pipe(df, news, debug=False):
         text = row[news]
         try:
             if pd.isna(text):
-                roberta_result = [{
+                pipe_reusults = [{
                     'label': 'neutral',
                     'score': 1
                 }]
             else:
-                roberta_result = sent_pipeline(text[:514])
+                match model:
+                    case "roberta":
+                        pipe_reusults = pipeRoberta(text[:514])
+                    case "finbert":
+                        pipe_reusults = pipeFinbert(text[:514])
 
         except (IndexError, RuntimeError):
             if pd.isna(text) & debug:
@@ -145,12 +184,12 @@ def get_results_with_pipe(df, news, debug=False):
             elif debug:
                 fail[n] = text
                 n += 1
-            roberta_result = [{
+            pipe_reusults = [{
                 'label': 'neutral',
                 'score': 0
             }]
             pass
-        res[i] = roberta_result
+        res[i] = pipe_reusults
 
     res = pd.DataFrame(res).T
     res = res[0].apply(pd.Series)
