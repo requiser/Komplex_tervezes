@@ -6,8 +6,8 @@ from transformers import pipeline
 from scipy.special import softmax
 from nltk.sentiment import SentimentIntensityAnalyzer
 from tqdm.notebook import tqdm
-import nltk
 
+# import nltk
 
 plt.style.use('ggplot')
 
@@ -123,7 +123,7 @@ def check_prediction(df, tar, sco, neutral, debug=False):
         return predictions
 
 
-def get_results_with_pipe(df, news, debug=False):
+def get_results_with_pipe(df, news, debug=False):  # don't use it in current form
     res = {}
     fail = {}
     n = 0
@@ -168,7 +168,7 @@ def get_results_with_pipe(df, news, debug=False):
         return res
 
 
-def check_pipe_prediction(df, tar, label, debug=False):
+def check_pipe_prediction(df, tar, label, debug=False):  # don't use it in current form
     predict_dict = {}
     fail = {}
     n = 0
