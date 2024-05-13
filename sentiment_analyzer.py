@@ -4,14 +4,11 @@ from transformers import AutoTokenizer
 from transformers import AutoModelForSequenceClassification
 from transformers import pipeline
 from scipy.special import softmax
-from nltk.sentiment import SentimentIntensityAnalyzer
 from tqdm.notebook import tqdm
 
 # import nltk
-
+# sia = SentimentIntensityAnalyzer()
 plt.style.use('ggplot')
-
-sia = SentimentIntensityAnalyzer()
 
 MODEL = f"mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis"
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
