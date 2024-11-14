@@ -1,0 +1,49 @@
+[project]
+name = "Komplex_tervezes"
+version = "0.1.0"
+description = "A machine learning project using transformers and data analysis"
+requires-python = ">=3.8"
+dependencies = [
+    "pandas>=2.0.0",
+    "matplotlib~=3.8.4",
+    "nltk~=3.8.1",
+    "transformers~=4.40.2",
+    "scipy~=1.13.0",
+    "tqdm~=4.65.0",
+    "scikit-learn>=1.0.0",
+    "tensorflow>=2.0.0",
+    "torch>=2.0.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.15.0",
+    "jupyter>=1.0.0",
+    "jupyterlab>=3.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=22.0",
+    "isort>=5.0",
+    "flake8>=5.0",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true

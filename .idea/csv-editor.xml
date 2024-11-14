@@ -3,28 +3,56 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\input\source_1\MicrosoftNewsStock.csv">
+        <entry key="\src\data\input\processed\source_1\AppleNewsStock.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="\input\source_2\combined.csv">
+        <entry key="\src\data\input\raw\source_1\MicrosoftNewsStock.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="\input\source_2\lexicon_sentiment.csv">
+        <entry key="\src\data\input\raw\source_2\combined.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="\input\source_2\newsdata_labelled_v3.csv">
+        <entry key="\src\data\input\raw\source_2\lexicon_sentiment.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\input\raw\source_2\newsdata_labelled_v2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\input\raw\source_2\newsdata_labelled_v3.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\input\raw\source_2\return_data.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\input\raw\source_2\sent_label_added_corpus.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
