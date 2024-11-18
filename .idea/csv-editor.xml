@@ -10,6 +10,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\data\input\processed\source_1\MicrosoftNewsStock.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\input\raw\source_1\AppleNewsStock.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\data\input\raw\source_1\MicrosoftNewsStock.csv">
           <value>
             <Attribute>
@@ -53,6 +67,20 @@
           </value>
         </entry>
         <entry key="\src\data\input\raw\source_2\sent_label_added_corpus.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\output\AppleNewsStock.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\output\MicrosoftNewsStock.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
