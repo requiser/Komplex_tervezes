@@ -87,7 +87,28 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\data\output\AppleNewsStock_test.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\data\output\MicrosoftNewsStock.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\output\MicrosoftNewsStock_test.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\output\MicrosoftNewsStock_test2.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
