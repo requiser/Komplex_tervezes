@@ -38,6 +38,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\data\input\raw\source_2\headlines.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\data\input\raw\source_2\lexicon_sentiment.csv">
           <value>
             <Attribute>

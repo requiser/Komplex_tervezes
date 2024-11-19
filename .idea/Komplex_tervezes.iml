@@ -6,6 +6,7 @@
     </content>
     <orderEntry type="jdk" jdkName="/home/zero/miniconda3" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="jupyter-remote-192.168.1.72:8888" />
   </component>
   <component name="PackageRequirementsSettings">
     <option name="keepMatchingSpecifier" value="false" />
