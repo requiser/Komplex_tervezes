@@ -3,6 +3,20 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\src\data\input\processed\source\AAPL.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\input\processed\source\MSFT.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\data\input\processed\source_1\AppleNewsStock.csv">
           <value>
             <Attribute>
@@ -11,6 +25,13 @@
           </value>
         </entry>
         <entry key="\src\data\input\processed\source_1\MicrosoftNewsStock.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\input\raw\source\analyst_ratings_processed.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -87,35 +108,14 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\data\output\AppleNewsStock.csv">
+        <entry key="\src\data\output\AAPL_sentiment.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\data\output\AppleNewsStock_test.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\src\data\output\MicrosoftNewsStock.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\src\data\output\MicrosoftNewsStock_test.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\src\data\output\MicrosoftNewsStock_test2.csv">
+        <entry key="\src\data\output\MSFT_sentiment.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

@@ -1,0 +1,2060 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{notebook}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{1. Bevezetés}\label{bevezetuxe9s}
+
+    \section{2. A Téma elméleti
+kifejtése}\label{a-tuxe9ma-elmuxe9leti-kifejtuxe9se}
+
+    \section{3. Fejlesztői
+Dokumentáció}\label{fejlesztux151i-dokumentuxe1ciuxf3}
+
+    \section{4. Implementáció}\label{implementuxe1ciuxf3}
+
+    \subsection{Imports}\label{imports}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{plotly}\PY{n+nn}{.}\PY{n+nn}{express} \PY{k}{as} \PY{n+nn}{px}
+\PY{k+kn}{from} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{dates} \PY{k+kn}{import} \PY{n}{DateFormatter}
+\PY{k+kn}{from} \PY{n+nn}{plotly}\PY{n+nn}{.}\PY{n+nn}{subplots} \PY{k+kn}{import} \PY{n}{make\PYZus{}subplots}
+\PY{k+kn}{import} \PY{n+nn}{plotly}\PY{n+nn}{.}\PY{n+nn}{graph\PYZus{}objects} \PY{k}{as} \PY{n+nn}{go}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{transformers} \PY{k+kn}{import} \PY{n}{AutoTokenizer}
+\PY{k+kn}{from} \PY{n+nn}{transformers} \PY{k+kn}{import} \PY{n}{AutoModelForSequenceClassification}
+\PY{k+kn}{from} \PY{n+nn}{transformers} \PY{k+kn}{import} \PY{n}{pipeline}
+\PY{k+kn}{from} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{special} \PY{k+kn}{import} \PY{n}{softmax}
+\PY{k+kn}{from} \PY{n+nn}{tqdm}\PY{n+nn}{.}\PY{n+nn}{notebook} \PY{k+kn}{import} \PY{n}{tqdm}
+\PY{k+kn}{import} \PY{n+nn}{ast}
+
+\PY{o}{\PYZpc{}}\PY{k}{load\PYZus{}ext} autoreload
+\PY{o}{\PYZpc{}}\PY{k}{autoreload} 2
+\PY{n}{plt}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ggplot}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{NLP Models}\label{nlp-models}
+
+    \subsubsection{DistilRoBERTa Financial Sentiment
+Model}\label{distilroberta-financial-sentiment-model}
+
+A fine-tuned version of DistilRoberta base model on the Financial
+PhraseBank dataset.
+
+https://huggingface.co/mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model\PYZus{}DistRoBERTa} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mrm8488/distilroberta\PYZhy{}finetuned\PYZhy{}financial\PYZhy{}news\PYZhy{}sentiment\PYZhy{}analysis}\PY{l+s+s2}{\PYZdq{}}
+
+
+\PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}DistRoBERTa} \PY{o}{=} \PY{n}{pipeline}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sentiment\PYZhy{}analysis}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                           \PY{n}{model}\PY{o}{=} \PY{n}{AutoModelForSequenceClassification}\PY{o}{.}\PY{n}{from\PYZus{}pretrained}\PY{p}{(}
+                                               \PY{n}{model\PYZus{}DistRoBERTa}\PY{p}{,}
+                                               \PY{n}{num\PYZus{}labels}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,}
+                                           \PY{n}{tokenizer}\PY{o}{=}\PY{n}{AutoTokenizer}\PY{o}{.}\PY{n}{from\PYZus{}pretrained}\PY{p}{(}\PY{n}{model\PYZus{}DistRoBERTa}\PY{p}{)}\PY{p}{,}
+                                           \PY{n}{top\PYZus{}k}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{truncation}\PY{o}{=}\PY{k+kc}{True}
+                                           \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsubsection{FinBERT}\label{finbert}
+
+A pre-traned NLP model to analyze sentiment of financial text. The BERT
+model fine-tuned on the Financial PhraseBank dataset.
+
+https://huggingface.co/ProsusAI/finbert
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model\PYZus{}FinBERT} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ProsusAI/finbert}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}FinBERT} \PY{o}{=} \PY{n}{pipeline}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sentiment\PYZhy{}analysis}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                       \PY{n}{model}\PY{o}{=}\PY{n}{AutoModelForSequenceClassification}\PY{o}{.}\PY{n}{from\PYZus{}pretrained}\PY{p}{(}
+                                           \PY{n}{model\PYZus{}FinBERT}\PY{p}{,}
+                                           \PY{n}{num\PYZus{}labels}\PY{o}{=}\PY{l+m+mi}{3}
+                                       \PY{p}{)}\PY{p}{,}
+                                       \PY{n}{tokenizer}\PY{o}{=}\PY{n}{AutoTokenizer}\PY{o}{.}\PY{n}{from\PYZus{}pretrained}\PY{p}{(}\PY{n}{model\PYZus{}FinBERT}\PY{p}{)}\PY{p}{,}
+                                       \PY{n}{top\PYZus{}k}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{truncation}\PY{o}{=}\PY{k+kc}{True}
+                                       \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsubsection{FinDeBERTa}\label{findeberta}
+
+A fine-tuned version of DeBERTa base model on the None dataset.
+
+https://huggingface.co/mrm8488/deberta-v3-ft-financial-news-sentiment-analysis
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model\PYZus{}DeBERTa} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mrm8488/deberta\PYZhy{}v3\PYZhy{}ft\PYZhy{}financial\PYZhy{}news\PYZhy{}sentiment\PYZhy{}analysis}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}DeBERTa} \PY{o}{=} \PY{n}{pipeline}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sentiment\PYZhy{}analysis}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                       \PY{n}{model}\PY{o}{=}\PY{n}{AutoModelForSequenceClassification}\PY{o}{.}\PY{n}{from\PYZus{}pretrained}\PY{p}{(}
+                                           \PY{n}{model\PYZus{}DeBERTa}\PY{p}{,}
+                                           \PY{n}{num\PYZus{}labels}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,}
+                                       \PY{n}{tokenizer}\PY{o}{=}\PY{n}{AutoTokenizer}\PY{o}{.}\PY{n}{from\PYZus{}pretrained}\PY{p}{(}\PY{n}{model\PYZus{}DeBERTa}\PY{p}{)}\PY{p}{,}
+                                       \PY{n}{top\PYZus{}k}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Functions}\label{functions}
+
+    \paragraph{Preprocess Data}\label{preprocess-data}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{preprocess\PYZus{}data}\PY{p}{(}\PY{n}{input\PYZus{}file}\PY{p}{,} \PY{n}{output\PYZus{}file}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Process stock data.}
+
+\PY{l+s+sd}{    Parameters:}
+\PY{l+s+sd}{    \PYZhy{} input\PYZus{}file: Path to the input CSV file.}
+\PY{l+s+sd}{    \PYZhy{} output\PYZus{}file: Path to save the processed CSV file.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{try}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Read the CSV file}
+        \PY{n}{data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{input\PYZus{}file}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Drop any columns containing \PYZsq{}unnamed\PYZsq{} (in case of unnamed index columns)}
+        \PY{n}{data}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{columns}\PY{p}{[}\PY{n}{data}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{contains}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unnamed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{case}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Save the processed data to a CSV file}
+        \PY{n}{data}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{n}{output\PYZus{}file}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Processed data saved to }\PY{l+s+si}{\PYZob{}}\PY{n}{output\PYZus{}file}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{k}{except} \PY{n+ne}{FileNotFoundError}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: The file }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{input\PYZus{}file}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ was not found.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{ValueError} \PY{k}{as} \PY{n}{ve}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: }\PY{l+s+si}{\PYZob{}}\PY{n}{ve}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{An unexpected error occurred: }\PY{l+s+si}{\PYZob{}}\PY{n}{e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \paragraph{Sentiment Scores}\label{sentiment-scores}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{get\PYZus{}sentiment\PYZus{}scores\PYZus{}test}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{news}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Performs sentiment analysis using a specified pipeline and calculates sentiment scores.}
+
+\PY{l+s+sd}{    Args:}
+\PY{l+s+sd}{        df (pd.DataFrame): DataFrame containing the text data.}
+\PY{l+s+sd}{        news (str): Column name for the news headlines or text to analyze.}
+\PY{l+s+sd}{        model (str): The model to use for sentiment analysis (\PYZsq{}DistRoBERTa\PYZsq{}, \PYZsq{}FinBERT\PYZsq{}, \PYZsq{}DeBERTa\PYZsq{}).}
+\PY{l+s+sd}{        debug (bool): If True, logs details of failures.}
+
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{        pd.DataFrame: DataFrame with calculated sentiment scores.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{} Create a copy of the DataFrame to avoid SettingWithCopyWarning}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Select the appropriate model pipeline}
+    \PY{k}{if} \PY{n}{model} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{sent\PYZus{}pipeline} \PY{o}{=} \PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}DistRoBERTa}
+    \PY{k}{elif} \PY{n}{model} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{sent\PYZus{}pipeline} \PY{o}{=} \PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}FinBERT}
+    \PY{k}{elif} \PY{n}{model} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{sent\PYZus{}pipeline} \PY{o}{=} \PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}DeBERTa}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{ValueError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Invalid model name. Choose }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{, }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{, }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{res} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{fail} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{0}
+
+    \PY{c+c1}{\PYZsh{} Process each row in the DataFrame}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{total}\PY{o}{=}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{text} \PY{o}{=} \PY{n}{row}\PY{p}{[}\PY{n}{news}\PY{p}{]}
+        \PY{k}{try}\PY{p}{:}
+            \PY{k}{if} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{text}\PY{p}{)}\PY{p}{:}
+                \PY{n}{roberta\PYZus{}result} \PY{o}{=} \PY{p}{[}\PY{p}{[}
+                    \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neutral}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{1.0}\PY{p}{\PYZcb{}}\PY{p}{,}
+                    \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{\PYZcb{}}\PY{p}{,}
+                    \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{\PYZcb{}}
+                \PY{p}{]}\PY{p}{]}
+            \PY{k}{else}\PY{p}{:}
+                \PY{n}{roberta\PYZus{}result} \PY{o}{=} \PY{n}{sent\PYZus{}pipeline}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+
+        \PY{k}{except} \PY{p}{(}\PY{n+ne}{IndexError}\PY{p}{,} \PY{n+ne}{RuntimeError}\PY{p}{)}\PY{p}{:}
+            \PY{k}{if} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{text}\PY{p}{)} \PY{o+ow}{and} \PY{n}{debug}\PY{p}{:}
+                \PY{n}{fail}\PY{p}{[}\PY{n}{n}\PY{p}{]} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)}
+            \PY{k}{elif} \PY{n}{debug}\PY{p}{:}
+                \PY{n}{fail}\PY{p}{[}\PY{n}{n}\PY{p}{]} \PY{o}{=} \PY{n}{text}
+                \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{roberta\PYZus{}result} \PY{o}{=} \PY{p}{[}\PY{p}{[}
+                \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neutral}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{1.0}\PY{p}{\PYZcb{}}\PY{p}{,}
+                \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{\PYZcb{}}\PY{p}{,}
+                \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{\PYZcb{}}
+            \PY{p}{]}\PY{p}{]}
+            \PY{k}{pass}
+        \PY{n}{res}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{roberta\PYZus{}result}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{c+c1}{\PYZsh{} Extract the first list}
+
+    \PY{c+c1}{\PYZsh{} Create a new column with the sentiment score}
+    \PY{n}{sentiment\PYZus{}score\PYZus{}col} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}sentiment\PYZus{}scores}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{df}\PY{p}{[}\PY{n}{sentiment\PYZus{}score\PYZus{}col}\PY{p}{]} \PY{o}{=} \PY{n}{res}
+
+    \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+        \PY{k}{return} \PY{n}{df}\PY{p}{,} \PY{n}{fail}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{get\PYZus{}sentiment\PYZus{}scores\PYZus{}thread}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{news\PYZus{}column}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Performs CPU\PYZhy{}optimized sentiment analysis on news text and calculates sentiment scores.}
+
+\PY{l+s+sd}{    Args:}
+\PY{l+s+sd}{        df (pd.DataFrame): DataFrame containing the news data}
+\PY{l+s+sd}{        news\PYZus{}column (str): Name of the column containing news text}
+\PY{l+s+sd}{        model (str): Model name (\PYZsq{}DistRoBERTa\PYZsq{}, \PYZsq{}FinBERT\PYZsq{}, or \PYZsq{}DeBERTa\PYZsq{})}
+
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{        pd.DataFrame: Original DataFrame with added sentiment score column}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{pipelines} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}DistRoBERTa}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}FinBERT}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{\PYZus{}sentiment\PYZus{}analysis\PYZus{}DeBERTa}
+    \PY{p}{\PYZcb{}}
+
+    \PY{n}{pipe} \PY{o}{=} \PY{n}{pipelines}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{model}\PY{p}{)}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{pipe}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{ValueError}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Invalid model. Choose from: }\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{, }\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{pipelines}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{DEFAULT\PYZus{}SENTIMENT} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}
+    \PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neutral}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1}
+    \PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}
+    \PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
+
+    \PY{k+kn}{from} \PY{n+nn}{concurrent}\PY{n+nn}{.}\PY{n+nn}{futures} \PY{k+kn}{import} \PY{n}{ThreadPoolExecutor}
+    \PY{k+kn}{from} \PY{n+nn}{functools} \PY{k+kn}{import} \PY{n}{partial}
+
+    \PY{k}{def} \PY{n+nf}{process\PYZus{}single\PYZus{}text}\PY{p}{(}\PY{n}{text}\PY{p}{,} \PY{n}{pipe}\PY{o}{=}\PY{n}{pipe}\PY{p}{)}\PY{p}{:}
+\PY{+w}{        }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Process a single text item\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{if} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{text}\PY{p}{)} \PY{o+ow}{or} \PY{o+ow}{not} \PY{n+nb}{str}\PY{p}{(}\PY{n}{text}\PY{p}{)}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{return} \PY{n}{DEFAULT\PYZus{}SENTIMENT}
+
+        \PY{k}{try}\PY{p}{:}
+            \PY{n}{result} \PY{o}{=} \PY{n}{pipe}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+            \PY{k}{return} \PY{n}{result} \PY{k}{if} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{result}\PY{p}{,} \PY{n+nb}{list}\PY{p}{)} \PY{k}{else} \PY{p}{[}\PY{n}{result}\PY{p}{]}
+        \PY{k}{except}\PY{p}{:}
+            \PY{k}{return} \PY{n}{DEFAULT\PYZus{}SENTIMENT}
+
+    \PY{c+c1}{\PYZsh{} Process texts using thread pool}
+    \PY{n}{texts} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{news\PYZus{}column}\PY{p}{]}\PY{o}{.}\PY{n}{values}
+    \PY{k}{with} \PY{n}{ThreadPoolExecutor}\PY{p}{(}\PY{n}{max\PYZus{}workers}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)} \PY{k}{as} \PY{n}{executor}\PY{p}{:}  \PY{c+c1}{\PYZsh{} Adjust max\PYZus{}workers based on your CPU}
+        \PY{n}{all\PYZus{}sentiments} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{tqdm}\PY{p}{(}
+            \PY{n}{executor}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{process\PYZus{}single\PYZus{}text}\PY{p}{,} \PY{n}{texts}\PY{p}{)}\PY{p}{,}
+            \PY{n}{total}\PY{o}{=}\PY{n+nb}{len}\PY{p}{(}\PY{n}{texts}\PY{p}{)}\PY{p}{,}
+            \PY{n}{desc}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Processing }\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ sentiment}\PY{l+s+s2}{\PYZdq{}}
+        \PY{p}{)}\PY{p}{)}
+
+    \PY{k}{def} \PY{n+nf}{calculate\PYZus{}score}\PY{p}{(}\PY{n}{result}\PY{p}{)}\PY{p}{:}
+\PY{+w}{        }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Calculate sentiment score from result\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{n}{result} \PY{o}{=} \PY{n}{result}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+        \PY{n}{pos\PYZus{}score} \PY{o}{=} \PY{n+nb}{next}\PY{p}{(}\PY{p}{(}\PY{n}{item}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{k}{for} \PY{n}{item} \PY{o+ow}{in} \PY{n}{result} \PY{k}{if} \PY{n}{item}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{neg\PYZus{}score} \PY{o}{=} \PY{n+nb}{next}\PY{p}{(}\PY{p}{(}\PY{n}{item}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{k}{for} \PY{n}{item} \PY{o+ow}{in} \PY{n}{result} \PY{k}{if} \PY{n}{item}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{denominator} \PY{o}{=} \PY{n}{pos\PYZus{}score} \PY{o}{+} \PY{n}{neg\PYZus{}score}
+        \PY{k}{return} \PY{p}{(}\PY{n}{pos\PYZus{}score} \PY{o}{\PYZhy{}} \PY{n}{neg\PYZus{}score}\PY{p}{)} \PY{o}{/} \PY{n}{denominator} \PY{k}{if} \PY{n}{denominator} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}
+
+    \PY{c+c1}{\PYZsh{} Calculate scores and add to DataFrame}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}sentiment\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{calculate\PYZus{}score}\PY{p}{(}\PY{n}{result}\PY{p}{)} \PY{k}{for} \PY{n}{result} \PY{o+ow}{in} \PY{n}{all\PYZus{}sentiments}\PY{p}{]}
+
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{sentiment\PYZus{}vector}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{scores}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Creates a sentiment vector column based on sentiment scores.}
+\PY{l+s+sd}{    (Neutral, Positive, Negative)}
+
+\PY{l+s+sd}{    Parameters:}
+\PY{l+s+sd}{    \PYZhy{} df: DataFrame containing the stock data.}
+\PY{l+s+sd}{    \PYZhy{} scores: Column name for the sentiment scores.}
+\PY{l+s+sd}{    \PYZhy{} model: Name of the model.}
+\PY{l+s+sd}{    \PYZhy{} debug: If True, prints debugging information.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Function to extract scores and create a sentiment vector}
+    \PY{k}{def} \PY{n+nf}{extract\PYZus{}scores}\PY{p}{(}\PY{n}{row}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} If row is a string, convert it to a Python object}
+        \PY{k}{if} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{row}\PY{p}{,} \PY{n+nb}{str}\PY{p}{)}\PY{p}{:}
+            \PY{n}{row} \PY{o}{=} \PY{n}{ast}\PY{o}{.}\PY{n}{literal\PYZus{}eval}\PY{p}{(}\PY{n}{row}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Safely evaluate the string to a Python object}
+        \PY{c+c1}{\PYZsh{} Extract scores for neutral, positive, and negative in the correct order}
+        \PY{n}{dimensions} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{item}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:} \PY{n}{item}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{k}{for} \PY{n}{item} \PY{o+ow}{in} \PY{n}{row}\PY{p}{\PYZcb{}}
+        \PY{k}{return} \PY{n}{dimensions}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neutral}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{dimensions}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{dimensions}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+    \PY{c+c1}{\PYZsh{} Apply the function to the column}
+    \PY{n}{sentiment\PYZus{}vector\PYZus{}col} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}sentiment\PYZus{}vector}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{df}\PY{p}{[}\PY{n}{sentiment\PYZus{}vector\PYZus{}col}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{scores}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{extract\PYZus{}scores}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sentiment vector column }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{sentiment\PYZus{}vector\PYZus{}col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ created successfully.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{sentiment\PYZus{}vector\PYZus{}col}\PY{p}{]}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{adjust\PYZus{}scores}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{vectors}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Calculate adjusted sentiment scores from vector column.\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{def} \PY{n+nf}{calculate\PYZus{}normalized\PYZus{}score}\PY{p}{(}\PY{n}{vector}\PY{p}{)}\PY{p}{:}
+        \PY{n}{neutral}\PY{p}{,} \PY{n}{positive}\PY{p}{,} \PY{n}{negative} \PY{o}{=} \PY{n}{vector}
+        \PY{n}{total} \PY{o}{=} \PY{n}{positive} \PY{o}{+} \PY{n}{negative} \PY{c+c1}{\PYZsh{}+ neutral}
+        \PY{k}{return} \PY{p}{(}\PY{n}{positive} \PY{o}{\PYZhy{}} \PY{n}{negative}\PY{p}{)} \PY{o}{/} \PY{n}{total} \PY{k}{if} \PY{n}{total} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}
+
+    \PY{k}{def} \PY{n+nf}{calculate\PYZus{}raw\PYZus{}score}\PY{p}{(}\PY{n}{vector}\PY{p}{)}\PY{p}{:}
+        \PY{n}{neutral}\PY{p}{,} \PY{n}{positive}\PY{p}{,} \PY{n}{negative} \PY{o}{=} \PY{n}{vector}
+        \PY{k}{return} \PY{n}{positive} \PY{k}{if} \PY{n}{positive} \PY{o}{\PYZgt{}} \PY{n}{negative} \PY{k}{else} \PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{o}{*}\PY{n}{negative}\PY{p}{)} \PY{k}{if} \PY{n}{negative} \PY{o}{\PYZgt{}} \PY{n}{positive} \PY{k}{else} \PY{l+m+mi}{0}
+
+
+    \PY{n}{df}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}adjusted\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{vectors}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{calculate\PYZus{}normalized\PYZus{}score}\PY{p}{)}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}raw\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{vectors}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{calculate\PYZus{}raw\PYZus{}score}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adjusted scores distribution:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{df}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \paragraph{Validate Predictions}\label{validate-predictions}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{validate\PYZus{}predictions}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{tar}\PY{p}{,} \PY{n}{sco}\PY{p}{,} \PY{n}{vol}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{target\PYZus{}factor}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{n}{score\PYZus{}factor} \PY{o}{=} \PY{l+m+mf}{0.33}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Validate prediction based on adaptive volatility\PYZhy{}based threshold for neutrality.}
+
+\PY{l+s+sd}{    Args:}
+\PY{l+s+sd}{        df (pd.DataFrame): DataFrame containing stock data with calculated volatility.}
+\PY{l+s+sd}{        tar (str): Column name for the target price change (e.g., \PYZsq{}Daily Return\PYZsq{}).}
+\PY{l+s+sd}{        sco (str): Column name for the sentiment score.}
+\PY{l+s+sd}{        model (str): Model name to include in the predictions column.}
+\PY{l+s+sd}{        target\PYZus{}factor (float): Multiplier for volatility to define the neutral threshold for the target.}
+\PY{l+s+sd}{        score\PYZus{}factor (float): Threshold for neutral sentiment score.}
+\PY{l+s+sd}{        debug (bool): If True, logs details of failures.}
+
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{        pd.DataFrame: DataFrame with predictions and success/failure of predictions.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{predict\PYZus{}dict} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{fail} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{0}
+
+    \PY{c+c1}{\PYZsh{} Validate input columns exist}
+    \PY{n}{required\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{n}{tar}\PY{p}{,} \PY{n}{sco}\PY{p}{,} \PY{n}{vol}\PY{p}{]}
+    \PY{n}{missing\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{n}{col} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{required\PYZus{}cols} \PY{k}{if} \PY{n}{col} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{]}
+    \PY{k}{if} \PY{n}{missing\PYZus{}cols}\PY{p}{:}
+        \PY{k}{raise} \PY{n+ne}{ValueError}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Missing required columns: }\PY{l+s+si}{\PYZob{}}\PY{n}{missing\PYZus{}cols}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Calculate adaptive volatility threshold and predictions}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{total}\PY{o}{=}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n}{disable}\PY{o}{=}\PY{o+ow}{not} \PY{n}{debug}\PY{p}{)}\PY{p}{:}
+        \PY{k}{try}\PY{p}{:}
+            \PY{n}{target} \PY{o}{=} \PY{n}{row}\PY{p}{[}\PY{n}{tar}\PY{p}{]}
+            \PY{n}{score} \PY{o}{=} \PY{n}{row}\PY{p}{[}\PY{n}{sco}\PY{p}{]}
+
+            \PY{c+c1}{\PYZsh{} Handle NaN values}
+            \PY{k}{if} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{target}\PY{p}{)} \PY{o+ow}{or} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{score}\PY{p}{)} \PY{o+ow}{or} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n}{vol}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+                \PY{n}{predict\PYZus{}dict}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}  \PY{c+c1}{\PYZsh{} or another default value for NaN cases}
+                \PY{k}{continue}
+
+
+            \PY{n}{neu\PYZus{}target\PYZus{}threshold} \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n}{vol}\PY{p}{]} \PY{o}{*} \PY{n}{target\PYZus{}factor}\PY{p}{)} \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n}{vol}\PY{p}{]} \PY{o}{*} \PY{n}{target\PYZus{}factor}\PY{p}{)} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{1} \PY{k}{else} \PY{l+m+mi}{1} \PY{c+c1}{\PYZsh{} Add abs() for safety}
+
+            \PY{c+c1}{\PYZsh{}neu\PYZus{}score\PYZus{}threshold = abs(row[vol] * score\PYZus{}factor) if abs(row[vol] * score\PYZus{}factor) \PYZlt{}= 1 else 1 \PYZsh{} Add abs() for safety}
+            \PY{n}{neu\PYZus{}score\PYZus{}threshold} \PY{o}{=} \PY{n}{score\PYZus{}factor}
+
+            \PY{c+c1}{\PYZsh{} Improved prediction logic}
+            \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{target}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{n}{neu\PYZus{}target\PYZus{}threshold} \PY{o+ow}{and} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{score}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{n}{neu\PYZus{}score\PYZus{}threshold}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Only evaluate directional accuracy when both target and score are non\PYZhy{}zero}
+                \PY{k}{if} \PY{n}{target} \PY{o}{!=} \PY{l+m+mi}{0} \PY{o+ow}{and} \PY{n}{score} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+                    \PY{n}{predict\PYZus{}dict}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1} \PY{k}{if} \PY{p}{(}\PY{n}{target} \PY{o}{*} \PY{n}{score}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}  \PY{c+c1}{\PYZsh{} Simplified comparison}
+                \PY{k}{else}\PY{p}{:}
+                    \PY{n}{predict\PYZus{}dict}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}  \PY{c+c1}{\PYZsh{} Case where either value is zero}
+            \PY{k}{else}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Modified neutral case logic}
+                \PY{n}{predict\PYZus{}dict}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1} \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{score}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{n}{neu\PYZus{}score\PYZus{}threshold} \PY{o+ow}{and} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{target}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{n}{neu\PYZus{}target\PYZus{}threshold} \PY{k}{else} \PY{l+m+mi}{0}
+
+        \PY{k}{except} \PY{n+ne}{KeyError} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+            \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{KeyError at index }\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{str}\PY{p}{(}\PY{n}{e}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{predict\PYZus{}dict}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+            \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+                \PY{n}{fail}\PY{p}{[}\PY{n}{n}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{i}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n+nb}{str}\PY{p}{(}\PY{n}{e}\PY{p}{)}\PY{p}{\PYZcb{}}
+                \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{predict\PYZus{}dict}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}
+
+    \PY{c+c1}{\PYZsh{} Create the predictions DataFrame more efficiently}
+    \PY{n}{predictions} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{predict\PYZus{}dict}\PY{p}{,} \PY{n}{name}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}predictions}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Update the DataFrame more efficiently}
+    \PY{k}{if} \PY{n}{predictions}\PY{o}{.}\PY{n}{name} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+        \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{n}{predictions}\PY{o}{.}\PY{n}{name}\PY{p}{]}\PY{p}{)}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{predictions}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+        \PY{k}{return} \PY{n}{df}\PY{p}{,} \PY{n}{fail}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{add\PYZus{}trend}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{close}\PY{p}{,} \PY{n}{day}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Calculates the trend of a stock price.}
+
+\PY{l+s+sd}{    Parameters:}
+\PY{l+s+sd}{    \PYZhy{} df: DataFrame containing the stock data.}
+\PY{l+s+sd}{    \PYZhy{} close: Column name for the close price.}
+\PY{l+s+sd}{    \PYZhy{} day: Number of days to calculate the trend.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{try}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Calculate the trend}
+        \PY{n}{tend\PYZus{}col} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{trend\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{day}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{d}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{df}\PY{p}{[}\PY{n}{tend\PYZus{}col}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{close}\PY{p}{]}\PY{o}{.}\PY{n}{pct\PYZus{}change}\PY{p}{(}\PY{n}{periods}\PY{o}{=}\PY{n}{day}\PY{p}{)}\PY{o}{.}\PY{n}{shift}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+
+        \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+            \PY{k}{return} \PY{n}{df}
+        \PY{k}{else}\PY{p}{:}
+            \PY{k}{return} \PY{n}{df}
+
+    \PY{k}{except} \PY{n+ne}{KeyError} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{KeyError: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{str}\PY{p}{(}\PY{n}{e}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{return} \PY{n}{df}
+        \PY{k}{else}\PY{p}{:}
+            \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{add\PYZus{}volatility}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{close}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{trading\PYZus{}days}\PY{o}{=}\PY{l+m+mi}{252}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Calculate rolling volatility for a DataFrame\PYZsq{}s close price column.}
+
+\PY{l+s+sd}{    Parameters:}
+\PY{l+s+sd}{    \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{l+s+sd}{    df : pandas.DataFrame}
+\PY{l+s+sd}{        Input DataFrame containing price data}
+\PY{l+s+sd}{    close : str}
+\PY{l+s+sd}{        Name of the column containing closing prices}
+\PY{l+s+sd}{    window : int, optional}
+\PY{l+s+sd}{        Rolling window size for volatility calculation (default: 5)}
+\PY{l+s+sd}{    trading\PYZus{}days : int, optional}
+\PY{l+s+sd}{        Annual trading days for annualized volatility (default: 252)}
+\PY{l+s+sd}{    debug : bool, optional}
+\PY{l+s+sd}{        If True, returns additional debug information (default: False)}
+
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{    \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{l+s+sd}{    pandas.DataFrame}
+\PY{l+s+sd}{        Original DataFrame with added volatility columns}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{} Create a copy of the DataFrame to avoid modifying the original}
+    \PY{n}{result} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Calculate log returns}
+    \PY{n}{result}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}returns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{result}\PY{p}{[}\PY{n}{close}\PY{p}{]} \PY{o}{/} \PY{n}{result}\PY{p}{[}\PY{n}{close}\PY{p}{]}\PY{o}{.}\PY{n}{shift}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Calculate rolling standard deviation of log returns (annualized)}
+    \PY{n}{result}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{volatility\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{window}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}
+        \PY{n}{result}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}returns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+        \PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{n}{window}\PY{p}{)}
+        \PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}
+        \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{trading\PYZus{}days}\PY{p}{)}
+    \PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Optional debug information}
+    \PY{k}{if} \PY{n}{debug}\PY{p}{:}
+        \PY{n}{result}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rolling\PYZus{}mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{result}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}returns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{n}{window}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+        \PY{n}{result}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rolling\PYZus{}variance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{result}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}returns}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{n}{window}\PY{p}{)}\PY{o}{.}\PY{n}{var}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{result}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \paragraph{Plot}\label{plot}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{create\PYZus{}sentiment\PYZus{}plot}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{data\PYZus{}name}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{debug}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+    \PY{n}{fig} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Define color schemes for each model: (true\PYZus{}color, false\PYZus{}color)}
+    \PY{n}{color\PYZus{}schemes} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}2ecc71}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}a9dfbf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Green shades}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}3498db}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}aed6f1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}      \PY{c+c1}{\PYZsh{} Blue shades}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}9b59b6}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}d7bde2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}       \PY{c+c1}{\PYZsh{} Purple shades}
+    \PY{p}{\PYZcb{}}
+
+    \PY{n}{sentiment\PYZus{}models} \PY{o}{=} \PY{p}{[}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{p}{]}
+
+    \PY{k}{for} \PY{n}{model\PYZus{}name}\PY{p}{,} \PY{n}{score\PYZus{}col}\PY{p}{,} \PY{n}{pred\PYZus{}col} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}models}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Get color scheme for this model}
+        \PY{n}{true\PYZus{}color}\PY{p}{,} \PY{n}{false\PYZus{}color} \PY{o}{=} \PY{n}{color\PYZus{}schemes}\PY{p}{[}\PY{n}{model\PYZus{}name}\PY{p}{]}
+
+        \PY{c+c1}{\PYZsh{} Create scatter plot for each prediction value (0 and 1)}
+        \PY{k}{for} \PY{n}{pred\PYZus{}value} \PY{o+ow}{in} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{:}
+            \PY{n}{mask} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{pred\PYZus{}col}\PY{p}{]} \PY{o}{==} \PY{n}{pred\PYZus{}value}
+
+            \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}trace}\PY{p}{(}
+                \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
+                    \PY{n}{x}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                    \PY{n}{y}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{mask}\PY{p}{]}\PY{p}{[}\PY{n}{score\PYZus{}col}\PY{p}{]}\PY{p}{,}
+                    \PY{n}{name}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ (Prediction=}\PY{l+s+si}{\PYZob{}}\PY{n}{pred\PYZus{}value}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}bool\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{markers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Removed \PYZsq{}lines\PYZsq{} to show only markers}
+                    \PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}
+                        \PY{n}{color}\PY{o}{=}\PY{n}{true\PYZus{}color} \PY{k}{if} \PY{n}{pred\PYZus{}value} \PY{o}{==} \PY{l+m+mi}{1} \PY{k}{else} \PY{n}{false\PYZus{}color}\PY{p}{,}
+                        \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,}
+                        \PY{n}{symbol}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{circle}\PY{l+s+s1}{\PYZsq{}}
+                    \PY{p}{)}
+                \PY{p}{)}
+            \PY{p}{)}
+
+    \PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}
+        \PY{n}{title}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{data\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ Sentiment Scores Over Time by Model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{xaxis\PYZus{}title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{yaxis\PYZus{}title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sentiment Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{template}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plotly\PYZus{}white}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{hovermode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x unified}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{legend}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}
+            \PY{n}{orientation}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{h}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{yanchor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bottom}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{y}\PY{o}{=}\PY{l+m+mf}{1.02}\PY{p}{,}
+            \PY{n}{xanchor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+            \PY{n}{x}\PY{o}{=}\PY{l+m+mi}{1}
+        \PY{p}{)}\PY{p}{,}
+        \PY{n}{xaxis}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{showgrid}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{,}
+        \PY{n}{yaxis}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{showgrid}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}traces}\PY{p}{(}\PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{n}{size}\PY{p}{)}\PY{p}{)}
+    \PY{k}{return} \PY{n}{fig}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{90}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}sentiment\PYZus{}and\PYZus{}stock}\PY{p}{(}\PY{n}{sentiment\PYZus{}plot}\PY{p}{,} \PY{n}{model\PYZus{}name}\PY{p}{,} \PY{n}{stock\PYZus{}plot}\PY{p}{,} \PY{n}{close}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Plot sentiment scores (adjusted and raw) and stock price changes over time.}
+
+\PY{l+s+sd}{    Parameters:}
+\PY{l+s+sd}{    \PYZhy{} sentiment\PYZus{}plot: DataFrame containing sentiment data.}
+\PY{l+s+sd}{    \PYZhy{} model\PYZus{}name: String, name of the sentiment analysis model (e.g., \PYZsq{}DeBERTa\PYZsq{}).}
+\PY{l+s+sd}{    \PYZhy{} stock\PYZus{}plot: DataFrame containing stock data.}
+\PY{l+s+sd}{    \PYZhy{} close\PYZus{}diff\PYZus{}col: String, column name for the stock\PYZsq{}s price differences.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{something\PYZus{}unique}\PY{p}{,} \PY{n}{ax1} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{22}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Plot adjusted sentiment score moving average}
+    \PY{n}{adjusted\PYZus{}score\PYZus{}col} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}adjusted\PYZus{}score\PYZus{}ma}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{sentiment\PYZus{}plot}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{sentiment\PYZus{}plot}\PY{p}{[}\PY{n}{adjusted\PYZus{}score\PYZus{}col}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ Adjusted Score MA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ Sentiment Scores Over Time by Model}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adjusted Sentiment Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{tick\PYZus{}params}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{labelcolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{xaxis}\PY{o}{.}\PY{n}{set\PYZus{}major\PYZus{}locator}\PY{p}{(}\PY{n}{plt}\PY{o}{.}\PY{n}{MaxNLocator}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{xaxis}\PY{o}{.}\PY{n}{set\PYZus{}major\PYZus{}formatter}\PY{p}{(}\PY{n}{DateFormatter}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{y\PYZhy{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{m\PYZhy{}}\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Add stock price change on secondary y\PYZhy{}axis}
+    \PY{n}{ax2} \PY{o}{=} \PY{n}{ax1}\PY{o}{.}\PY{n}{twinx}\PY{p}{(}\PY{p}{)}
+    \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{stock\PYZus{}plot}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{stock\PYZus{}plot}\PY{p}{[}\PY{n}{close}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Close Price Change}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Price Change}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax2}\PY{o}{.}\PY{n}{tick\PYZus{}params}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{labelcolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Add raw sentiment score moving average on another y\PYZhy{}axis}
+    \PY{n}{ax3} \PY{o}{=} \PY{n}{ax1}\PY{o}{.}\PY{n}{twinx}\PY{p}{(}\PY{p}{)}
+    \PY{n}{raw\PYZus{}score\PYZus{}col} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}raw\PYZus{}score\PYZus{}ma}\PY{l+s+s2}{\PYZdq{}}
+    \PY{n}{ax3}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{sentiment\PYZus{}plot}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{sentiment\PYZus{}plot}\PY{p}{[}\PY{n}{raw\PYZus{}score\PYZus{}col}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{orange}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ Raw Score MA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax3}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Raw Sentiment Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{orange}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax3}\PY{o}{.}\PY{n}{tick\PYZus{}params}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{labelcolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{orange}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Combine legends}
+    \PY{n}{lines1}\PY{p}{,} \PY{n}{labels1} \PY{o}{=} \PY{n}{ax1}\PY{o}{.}\PY{n}{get\PYZus{}legend\PYZus{}handles\PYZus{}labels}\PY{p}{(}\PY{p}{)}
+    \PY{n}{lines2}\PY{p}{,} \PY{n}{labels2} \PY{o}{=} \PY{n}{ax2}\PY{o}{.}\PY{n}{get\PYZus{}legend\PYZus{}handles\PYZus{}labels}\PY{p}{(}\PY{p}{)}
+    \PY{n}{lines3}\PY{p}{,} \PY{n}{labels3} \PY{o}{=} \PY{n}{ax3}\PY{o}{.}\PY{n}{get\PYZus{}legend\PYZus{}handles\PYZus{}labels}\PY{p}{(}\PY{p}{)}
+    \PY{n}{ax1}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{lines1} \PY{o}{+} \PY{n}{lines2} \PY{o}{+} \PY{n}{lines3}\PY{p}{,} \PY{n}{labels1} \PY{o}{+} \PY{n}{labels2} \PY{o}{+} \PY{n}{labels3}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \paragraph{Unused}\label{unused}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{find\PYZus{}best\PYZus{}threshold}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{score\PYZus{}column}\PY{p}{,} \PY{n}{prediction\PYZus{}column}\PY{p}{,} \PY{n}{model\PYZus{}name}\PY{p}{,} \PY{n}{start\PYZus{}threshold}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{end\PYZus{}threshold}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{min\PYZus{}increment}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Optimized function to find the best threshold for sentiment score predictions using iterative refinement.}
+
+\PY{l+s+sd}{    Args:}
+\PY{l+s+sd}{        data (pd.DataFrame): The DataFrame containing the stock and sentiment data.}
+\PY{l+s+sd}{        score\PYZus{}column (str): The name of the column containing sentiment scores.}
+\PY{l+s+sd}{        prediction\PYZus{}column (str): The name of the column containing prediction values (0 or 1).}
+\PY{l+s+sd}{        model\PYZus{}name (str): The name of the sentiment model used.}
+\PY{l+s+sd}{        start\PYZus{}threshold (float): The starting threshold (default is 0).}
+\PY{l+s+sd}{        end\PYZus{}threshold (float): The ending threshold (default is 1).}
+\PY{l+s+sd}{        min\PYZus{}increment (float): The minimum increment to consider (default is 0.01).}
+
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{        tuple: The best threshold and the corresponding score.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{def} \PY{n+nf}{evaluate\PYZus{}threshold}\PY{p}{(}\PY{n}{threshold}\PY{p}{)}\PY{p}{:}
+\PY{+w}{        }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Helper function to evaluate a single threshold value\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{n}{temp\PYZus{}data} \PY{o}{=} \PY{n}{validate\PYZus{}predictions}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{score\PYZus{}column}\PY{p}{,} \PY{n}{model\PYZus{}name}\PY{p}{,} \PY{n}{threshold}\PY{p}{)}
+        \PY{k}{return} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{temp\PYZus{}data}\PY{p}{[}\PY{n}{prediction\PYZus{}column}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{temp\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{p}{)}
+
+    \PY{n}{best\PYZus{}threshold} \PY{o}{=} \PY{n}{start\PYZus{}threshold}
+    \PY{n}{best\PYZus{}score} \PY{o}{=} \PY{l+m+mf}{0.0}
+    \PY{n}{current\PYZus{}start} \PY{o}{=} \PY{n}{start\PYZus{}threshold}
+    \PY{n}{current\PYZus{}end} \PY{o}{=} \PY{n}{end\PYZus{}threshold}
+
+    \PY{c+c1}{\PYZsh{} Continue refining until the increment becomes too small}
+    \PY{n}{refinement\PYZus{}level} \PY{o}{=} \PY{l+m+mi}{1}
+    \PY{k}{while} \PY{k+kc}{True}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Calculate current increment as 10\PYZpc{} of current range}
+        \PY{n}{current\PYZus{}increment} \PY{o}{=} \PY{p}{(}\PY{n}{current\PYZus{}end} \PY{o}{\PYZhy{}} \PY{n}{current\PYZus{}start}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{0.1}
+
+        \PY{c+c1}{\PYZsh{} Stop if increment becomes too small}
+        \PY{k}{if} \PY{n}{current\PYZus{}increment} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{min\PYZus{}increment}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Final fine\PYZhy{}tuning with minimum increment}
+            \PY{n}{final\PYZus{}range} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{current\PYZus{}start}\PY{p}{,} \PY{n}{current\PYZus{}end} \PY{o}{+} \PY{n}{min\PYZus{}increment}\PY{p}{,} \PY{n}{min\PYZus{}increment}\PY{p}{)}
+            \PY{k}{for} \PY{n}{threshold} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{final\PYZus{}range}\PY{p}{,}
+                                \PY{n}{desc}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final refinement (increment=}\PY{l+s+si}{\PYZob{}}\PY{n}{min\PYZus{}increment}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                \PY{n}{leave}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{:}
+                \PY{n}{current\PYZus{}score} \PY{o}{=} \PY{n}{evaluate\PYZus{}threshold}\PY{p}{(}\PY{n}{threshold}\PY{p}{)}
+                \PY{k}{if} \PY{n}{current\PYZus{}score} \PY{o}{\PYZgt{}} \PY{n}{best\PYZus{}score}\PY{p}{:}
+                    \PY{n}{best\PYZus{}score} \PY{o}{=} \PY{n}{current\PYZus{}score}
+                    \PY{n}{best\PYZus{}threshold} \PY{o}{=} \PY{n}{threshold}
+            \PY{k}{break}
+
+        \PY{c+c1}{\PYZsh{} Create threshold range for this iteration}
+        \PY{n}{thresholds} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{current\PYZus{}start}\PY{p}{,} \PY{n}{current\PYZus{}end} \PY{o}{+} \PY{n}{current\PYZus{}increment}\PY{p}{,} \PY{n}{current\PYZus{}increment}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Evaluate each threshold in the current range}
+        \PY{n}{local\PYZus{}best\PYZus{}threshold} \PY{o}{=} \PY{n}{best\PYZus{}threshold}
+        \PY{n}{local\PYZus{}best\PYZus{}score} \PY{o}{=} \PY{n}{best\PYZus{}score}
+
+        \PY{k}{for} \PY{n}{threshold} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{thresholds}\PY{p}{,}
+                            \PY{n}{desc}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Refinement level }\PY{l+s+si}{\PYZob{}}\PY{n}{refinement\PYZus{}level}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (increment=}\PY{l+s+si}{\PYZob{}}\PY{n}{current\PYZus{}increment}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                            \PY{n}{leave}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{:}
+            \PY{n}{current\PYZus{}score} \PY{o}{=} \PY{n}{evaluate\PYZus{}threshold}\PY{p}{(}\PY{n}{threshold}\PY{p}{)}
+            \PY{k}{if} \PY{n}{current\PYZus{}score} \PY{o}{\PYZgt{}} \PY{n}{local\PYZus{}best\PYZus{}score}\PY{p}{:}
+                \PY{n}{local\PYZus{}best\PYZus{}score} \PY{o}{=} \PY{n}{current\PYZus{}score}
+                \PY{n}{local\PYZus{}best\PYZus{}threshold} \PY{o}{=} \PY{n}{threshold}
+
+        \PY{c+c1}{\PYZsh{} Update best overall if better found}
+        \PY{k}{if} \PY{n}{local\PYZus{}best\PYZus{}score} \PY{o}{\PYZgt{}} \PY{n}{best\PYZus{}score}\PY{p}{:}
+            \PY{n}{best\PYZus{}score} \PY{o}{=} \PY{n}{local\PYZus{}best\PYZus{}score}
+            \PY{n}{best\PYZus{}threshold} \PY{o}{=} \PY{n}{local\PYZus{}best\PYZus{}threshold}
+
+        \PY{c+c1}{\PYZsh{} Update range for next iteration}
+        \PY{c+c1}{\PYZsh{} New range is ±10\PYZpc{} around the best threshold found}
+        \PY{n}{range\PYZus{}width} \PY{o}{=} \PY{n}{current\PYZus{}increment} \PY{o}{*} \PY{l+m+mi}{2}  \PY{c+c1}{\PYZsh{} Look one increment on either side}
+        \PY{n}{current\PYZus{}start} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{n}{start\PYZus{}threshold}\PY{p}{,} \PY{n}{best\PYZus{}threshold} \PY{o}{\PYZhy{}} \PY{n}{range\PYZus{}width}\PY{p}{)}
+        \PY{n}{current\PYZus{}end} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{n}{end\PYZus{}threshold}\PY{p}{,} \PY{n}{best\PYZus{}threshold} \PY{o}{+} \PY{n}{range\PYZus{}width}\PY{p}{)}
+
+        \PY{n}{refinement\PYZus{}level} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+
+    \PY{k}{return} \PY{n}{best\PYZus{}threshold}\PY{p}{,} \PY{n}{best\PYZus{}score}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Prepare Data}\label{prepare-data}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} preprocess\PYZus{}data(\PYZsq{}/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/input/raw/source\PYZus{}1/AppleNewsStock.csv\PYZsq{}, \PYZsq{}/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/input/processed/source\PYZus{}1/AppleNewsStock\PYZus{}new.csv\PYZsq{})}
+\PY{c+c1}{\PYZsh{} preprocess\PYZus{}data(\PYZsq{}/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/input/raw/source\PYZus{}1/MicrosoftNewsStock.csv\PYZsq{}, \PYZsq{}/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/input/processed/source\PYZus{}1/MicrosoftNewsStock\PYZus{}new.csv\PYZsq{})}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/input/processed/source\PYZus{}1/AppleNewsStock\PYZus{}new.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{aapl\PYZus{}data}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{line}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adj Close}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/input/processed/source\PYZus{}1/MicrosoftNewsStock\PYZus{}new.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{msft\PYZus{}data}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{line}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adj Close}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Sentiment Analysis}\label{sentiment-analysis}
+
+    \subsubsection{-Microsoft}\label{microsoft}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{add\PYZus{}trend}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adj Close}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{add\PYZus{}volatility}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{133}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{line}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{trend\PYZus{}1d}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{22}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{133}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: xlabel='Date'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{notebook_files/notebook_38_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}sentiment\PYZus{}scores\PYZus{}test}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{News}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{model}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2517 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}sentiment\PYZus{}scores\PYZus{}test}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{News}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{model}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2517 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}sentiment\PYZus{}scores\PYZus{}test}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{News}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{model}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2517 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{sentiment\PYZus{}vector}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}sentiment\PYZus{}scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{sentiment\PYZus{}vector}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}sentiment\PYZus{}scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{sentiment\PYZus{}vector}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}sentiment\PYZus{}scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{adjust\PYZus{}scores}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}sentiment\PYZus{}vector}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{adjust\PYZus{}scores}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}sentiment\PYZus{}vector}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{adjust\PYZus{}scores}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}sentiment\PYZus{}vector}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{validate\PYZus{}predictions}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{volatility\PYZus{}5d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{target\PYZus{}factor}\PY{o}{=}\PY{l+m+mf}{0.15}\PY{p}{)}
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{validate\PYZus{}predictions}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{volatility\PYZus{}5d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{target\PYZus{}factor}\PY{o}{=}\PY{l+m+mf}{0.15}\PY{p}{)}
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{validate\PYZus{}predictions}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{volatility\PYZus{}5d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{target\PYZus{}factor}\PY{o}{=}\PY{l+m+mf}{0.15}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.5407230830353595
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.5208581644815257
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.5085419149781486
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{28}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{spearman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                            DeBERTa\_adjusted\_score  FinBERT\_adjusted\_score  \textbackslash{}
+DeBERTa\_adjusted\_score                    1.000000                0.706975
+FinBERT\_adjusted\_score                    0.706975                1.000000
+DistRoBERTa\_adjusted\_score                0.725090                0.571722
+trend\_1d                                  0.114709                0.154048
+
+                            DistRoBERTa\_adjusted\_score  trend\_1d
+DeBERTa\_adjusted\_score                        0.725090  0.114709
+FinBERT\_adjusted\_score                        0.571722  0.154048
+DistRoBERTa\_adjusted\_score                    1.000000  0.096931
+trend\_1d                                      0.096931  1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{28}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                            DeBERTa\_adjusted\_score  FinBERT\_adjusted\_score  \textbackslash{}
+DeBERTa\_adjusted\_score                    1.000000                0.684045
+FinBERT\_adjusted\_score                    0.684045                1.000000
+DistRoBERTa\_adjusted\_score                0.749291                0.582569
+trend\_1d                                  0.111902                0.139788
+
+                            DistRoBERTa\_adjusted\_score  trend\_1d
+DeBERTa\_adjusted\_score                        0.749291  0.111902
+FinBERT\_adjusted\_score                        0.582569  0.139788
+DistRoBERTa\_adjusted\_score                    1.000000  0.071121
+trend\_1d                                      0.071121  1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{28}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{spearman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                       DeBERTa\_raw\_score  FinBERT\_raw\_score  \textbackslash{}
+DeBERTa\_raw\_score               1.000000           0.601503
+FinBERT\_raw\_score               0.601503           1.000000
+DistRoBERTa\_raw\_score           0.720499           0.421291
+trend\_1d                        0.110354           0.088762
+
+                       DistRoBERTa\_raw\_score  trend\_1d
+DeBERTa\_raw\_score                   0.720499  0.110354
+FinBERT\_raw\_score                   0.421291  0.088762
+DistRoBERTa\_raw\_score               1.000000  0.054569
+trend\_1d                            0.054569  1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{28}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                       DeBERTa\_raw\_score  FinBERT\_raw\_score  \textbackslash{}
+DeBERTa\_raw\_score               1.000000           0.586941
+FinBERT\_raw\_score               0.586941           1.000000
+DistRoBERTa\_raw\_score           0.734739           0.436500
+trend\_1d                        0.097588           0.071609
+
+                       DistRoBERTa\_raw\_score  trend\_1d
+DeBERTa\_raw\_score                   0.734739  0.097588
+FinBERT\_raw\_score                   0.436500  0.071609
+DistRoBERTa\_raw\_score               1.000000  0.033600
+trend\_1d                            0.033600  1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Save Data}\label{save-data}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{131}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/output/MicrosoftNewsStock\PYZus{}new.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \paragraph{Read Output}\label{read-output}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/output/MicrosoftNewsStock\PYZus{}new.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsubsection{-Apple}\label{apple}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{138}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{add\PYZus{}trend}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adj Close}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{147}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{add\PYZus{}volatility}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{window}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{132}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{line}\PY{p}{(}\PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{trend\PYZus{}1d}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{22}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{132}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: xlabel='Date'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{notebook_files/notebook_59_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{141}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}sentiment\PYZus{}scores\PYZus{}test}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{News}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{model}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2517 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{142}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}sentiment\PYZus{}scores\PYZus{}test}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{News}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{model}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2517 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{143}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}sentiment\PYZus{}scores\PYZus{}test}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{News}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{model}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2517 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{99}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{sentiment\PYZus{}vector}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}sentiment\PYZus{}scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{sentiment\PYZus{}vector}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}sentiment\PYZus{}scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{sentiment\PYZus{}vector}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}sentiment\PYZus{}scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{100}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{adjust\PYZus{}scores}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}sentiment\PYZus{}vector}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{adjust\PYZus{}scores}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}sentiment\PYZus{}vector}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{adjust\PYZus{}scores}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}sentiment\PYZus{}vector}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{101}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{validate\PYZus{}predictions}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{volatility\PYZus{}5d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                 \PY{n}{target\PYZus{}factor}\PY{o}{=}\PY{l+m+mf}{0.15}\PY{p}{)}
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{validate\PYZus{}predictions}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{volatility\PYZus{}5d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                 \PY{n}{target\PYZus{}factor}\PY{o}{=}\PY{l+m+mf}{0.15}\PY{p}{)}
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{validate\PYZus{}predictions}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{volatility\PYZus{}5d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+                                 \PY{n}{target\PYZus{}factor}\PY{o}{=}\PY{l+m+mf}{0.15}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{102}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{102}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.21017083829956298
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{103}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{103}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.3694874851013111
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{104}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{104}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.2959872864521255
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{105}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{28}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{spearman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{105}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                            DeBERTa\_adjusted\_score  FinBERT\_adjusted\_score  \textbackslash{}
+DeBERTa\_adjusted\_score                    1.000000                0.650839
+FinBERT\_adjusted\_score                    0.650839                1.000000
+DistRoBERTa\_adjusted\_score                0.783410                0.660393
+trend\_1d                                  0.071518                0.173787
+
+                            DistRoBERTa\_adjusted\_score  trend\_1d
+DeBERTa\_adjusted\_score                        0.783410  0.071518
+FinBERT\_adjusted\_score                        0.660393  0.173787
+DistRoBERTa\_adjusted\_score                    1.000000  0.212258
+trend\_1d                                      0.212258  1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{106}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{28}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{106}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                            DeBERTa\_adjusted\_score  FinBERT\_adjusted\_score  \textbackslash{}
+DeBERTa\_adjusted\_score                    1.000000                0.630345
+FinBERT\_adjusted\_score                    0.630345                1.000000
+DistRoBERTa\_adjusted\_score                0.780398                0.647290
+trend\_1d                                  0.072393                0.199732
+
+                            DistRoBERTa\_adjusted\_score  trend\_1d
+DeBERTa\_adjusted\_score                        0.780398  0.072393
+FinBERT\_adjusted\_score                        0.647290  0.199732
+DistRoBERTa\_adjusted\_score                    1.000000  0.226027
+trend\_1d                                      0.226027  1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{107}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{28}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{spearman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{107}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                       DeBERTa\_raw\_score  FinBERT\_raw\_score  \textbackslash{}
+DeBERTa\_raw\_score               1.000000           0.346609
+FinBERT\_raw\_score               0.346609           1.000000
+DistRoBERTa\_raw\_score           0.663966           0.498425
+trend\_1d                        0.060133           0.208071
+
+                       DistRoBERTa\_raw\_score  trend\_1d
+DeBERTa\_raw\_score                   0.663966  0.060133
+FinBERT\_raw\_score                   0.498425  0.208071
+DistRoBERTa\_raw\_score               1.000000  0.217388
+trend\_1d                            0.217388  1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{28}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                       DeBERTa\_raw\_score  FinBERT\_raw\_score  \textbackslash{}
+DeBERTa\_raw\_score               1.000000           0.343613
+FinBERT\_raw\_score               0.343613           1.000000
+DistRoBERTa\_raw\_score           0.672126           0.512255
+trend\_1d                        0.034827           0.225866
+
+                       DistRoBERTa\_raw\_score  trend\_1d
+DeBERTa\_raw\_score                   0.672126  0.034827
+FinBERT\_raw\_score                   0.512255  0.225866
+DistRoBERTa\_raw\_score               1.000000  0.210860
+trend\_1d                            0.210860  1.000000
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Save Data}\label{save-data}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{130}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/output/AppleNewsStock\PYZus{}new.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \paragraph{Read Output}\label{read-output}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{98}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/output/AppleNewsStock\PYZus{}new.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{TO DO}\label{to-do}
+
+Histogram Equalization 3d megbízhatóság számolás
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Plot Result Comparison}\label{plot-result-comparison}
+
+    \subsubsection{Plot Sentiment Scores}\label{plot-sentiment-scores}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}fig} \PY{o}{=} \PY{n}{create\PYZus{}sentiment\PYZus{}plot}\PY{p}{(}\PY{n}{aapl\PYZus{}data}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Apple}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{aapl\PYZus{}fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}fig} \PY{o}{=} \PY{n}{create\PYZus{}sentiment\PYZus{}plot}\PY{p}{(}\PY{n}{msft\PYZus{}data}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Microsoft}\PY{l+s+s2}{\PYZdq{}} \PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{msft\PYZus{}fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsubsection{Further Operations}\label{further-operations}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot} \PY{o}{=} \PY{n}{msft\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot} \PY{o}{=} \PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{o}{.}\PY{n}{resample}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{125}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{88}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}stock\PYZus{}plot} \PY{o}{=} \PY{n}{msft\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{msft\PYZus{}stock\PYZus{}plot} \PY{o}{=} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{o}{.}\PY{n}{resample}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ffill}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}120\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{120}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}252\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{252}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{91}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot\PYZus{}sentiment\PYZus{}and\PYZus{}stock}\PY{p}{(}\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{notebook_files/notebook_87_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{93}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot\PYZus{}sentiment\PYZus{}and\PYZus{}stock}\PY{p}{(}\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{notebook_files/notebook_88_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{96}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot\PYZus{}sentiment\PYZus{}and\PYZus{}stock}\PY{p}{(}\PY{n}{msft\PYZus{}sentiment\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{msft\PYZus{}stock\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{notebook_files/notebook_89_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{109}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot} \PY{o}{=} \PY{n}{aapl\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trend\PYZus{}1d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot} \PY{o}{=} \PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{o}{.}\PY{n}{resample}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{124}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}adjusted\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}raw\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{126}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot} \PY{o}{=} \PY{n}{aapl\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot} \PY{o}{=} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{o}{.}\PY{n}{resample}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ffill}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}120\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{120}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}252\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{rolling}\PY{p}{(}\PY{n}{window}\PY{o}{=}\PY{l+m+mi}{252}\PY{p}{,} \PY{n}{center}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj Close}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}252\PYZus{}ma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{127}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot\PYZus{}sentiment\PYZus{}and\PYZus{}stock}\PY{p}{(}\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{notebook_files/notebook_93_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{128}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot\PYZus{}sentiment\PYZus{}and\PYZus{}stock}\PY{p}{(}\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{notebook_files/notebook_94_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{129}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plot\PYZus{}sentiment\PYZus{}and\PYZus{}stock}\PY{p}{(}\PY{n}{aapl\PYZus{}sentiment\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{aapl\PYZus{}stock\PYZus{}plot}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{close\PYZus{}diff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{notebook_files/notebook_95_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{msft\PYZus{}fig}\PY{o}{.}\PY{n}{write\PYZus{}image}\PY{p}{(}\PY{n}{file}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/tmp/pycharm\PYZus{}project\PYZus{}520/src/data/output/Sentiment\PYZus{}Scores\PYZus{}Over\PYZus{}Time\PYZus{}by\PYZus{}Model.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1200}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{600}\PY{p}{,} \PY{n}{engine}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{orca}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtered\PYZus{}data} \PY{o}{=} \PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{filtered\PYZus{}data} \PY{o}{=} \PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtered\PYZus{}data} \PY{o}{=} \PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{filtered\PYZus{}data} \PY{o}{=} \PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FinBERT\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{filtered\PYZus{}data} \PY{o}{=} \PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{filtered\PYZus{}data} \PY{o}{=} \PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{filtered\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DistRoBERTa\PYZus{}predictions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Testing}\label{testing}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Prepare the data for plotting}
+\PY{n}{scores\PYZus{}and\PYZus{}predictions} \PY{o}{=} \PY{p}{[}
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa\PYZus{}sentiment\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa\PYZus{}predictions}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT\PYZus{}sentiment\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT\PYZus{}predictions}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa\PYZus{}sentiment\PYZus{}score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa\PYZus{}predictions}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,}
+\PY{p}{]}
+
+\PY{n}{plot\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Combine sentiment scores and their predictions into one DataFrame}
+\PY{k}{for} \PY{n}{score}\PY{p}{,} \PY{n}{prediction} \PY{o+ow}{in} \PY{n}{scores\PYZus{}and\PYZus{}predictions}\PY{p}{:}
+    \PY{n}{temp\PYZus{}df} \PY{o}{=} \PY{n}{msft\PYZus{}data}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{score}\PY{p}{,} \PY{n}{prediction}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{rename}\PY{p}{(}
+        \PY{n}{columns}\PY{o}{=}\PY{p}{\PYZob{}}\PY{n}{score}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Value}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{prediction}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Prediction}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}
+    \PY{p}{)}
+    \PY{n}{temp\PYZus{}df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Metric}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{score}
+    \PY{n}{plot\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{plot\PYZus{}data}\PY{p}{,} \PY{n}{temp\PYZus{}df}\PY{p}{]}\PY{p}{,} \PY{n}{ignore\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Add a custom legend label combining type and prediction text}
+\PY{n}{plot\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Legend}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{plot\PYZus{}data}\PY{o}{.}\PY{n}{apply}\PY{p}{(}
+    \PY{k}{lambda} \PY{n}{row}\PY{p}{:} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Metric}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ : }\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{true}\PY{l+s+s1}{\PYZsq{}}\PY{+w}{ }\PY{k}{if}\PY{+w}{ }\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{+w}{ }\PY{o}{==}\PY{+w}{ }\PY{l+m+mi}{1}\PY{+w}{ }\PY{k}{else}\PY{+w}{ }\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{false}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Assign distinct colors for each type\PYZhy{}prediction combination}
+\PY{n}{color\PYZus{}map} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa : false}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lightblue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DistRoBERTa : true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{blue}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT : false}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{lightgreen}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FinBERT : true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{green}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa : false}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pink}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DeBERTa : true}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{} Map colors dynamically based on the Legend}
+\PY{n}{plot\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Color}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{plot\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Legend}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Create the scatter plot}
+\PY{n}{fig} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}
+    \PY{n}{plot\PYZus{}data}\PY{p}{,}
+    \PY{n}{x}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Value}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Legend}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Map directly to \PYZsq{}Legend\PYZsq{} for custom legend entries}
+    \PY{n}{symbol}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Metric}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sentiment Scores with Prediction\PYZhy{}Based Colors}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{labels}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Value}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sentiment Score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Legend}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Type : Prediction}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Metric}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Metric}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,}
+    \PY{n}{color\PYZus{}discrete\PYZus{}map}\PY{o}{=}\PY{n}{color\PYZus{}map}\PY{p}{,}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Update layout for better visuals and make the plot wider}
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}xaxes}\PY{p}{(}\PY{n}{title\PYZus{}text}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{tickangle}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Set the legend title to \PYZdq{}Type : Prediction\PYZdq{}}
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}layout}\PY{p}{(}
+    \PY{n}{legend\PYZus{}title\PYZus{}text}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Type : Prediction}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{legend}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{orientation}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{h}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{xanchor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,}
+    \PY{n}{template}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{plotly\PYZus{}white}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1200}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Increase the width of the plot (default is 700)}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Adjust the size of the points (markers)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}traces}\PY{p}{(}\PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Set the size of the markers, 5 is a smaller size}
+
+\PY{c+c1}{\PYZsh{} Show the plot}
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{=}\PY{n}{msft\PYZus{}data}\PY{p}{,}
+                 \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mrm8488\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{template}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plotly\PYZus{}white}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target vs Sentiment Score result}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}traces}\PY{p}{(}\PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,}
+                              \PY{n}{line}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+                                        \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DarkSlateGrey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{opacity}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,}
+                  \PY{n}{selector}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{markers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{=}\PY{n}{msft\PYZus{}data}\PY{p}{,}
+                 \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProsusAI\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{template}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plotly\PYZus{}white}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target vs Sentiment Score result}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}traces}\PY{p}{(}\PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,}
+                              \PY{n}{line}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+                                        \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DarkSlateGrey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{opacity}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,}
+                  \PY{n}{selector}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{markers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{=}\PY{n}{msft\PYZus{}data}\PY{p}{,}
+                 \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mrm8488\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProsusAI\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{template}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plotly\PYZus{}white}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target vs Sentiment Score result}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}traces}\PY{p}{(}\PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,}
+                              \PY{n}{line}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+                                        \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DarkSlateGrey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{opacity}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,}
+                  \PY{n}{selector}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{markers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{=}\PY{n}{aapl\PYZus{}data}\PY{p}{,}
+                 \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mrm8488\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{template}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plotly\PYZus{}white}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target vs Sentiment Score result}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}traces}\PY{p}{(}\PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,}
+                              \PY{n}{line}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+                                        \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DarkSlateGrey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{opacity}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,}
+                  \PY{n}{selector}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{markers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{=}\PY{n}{aapl\PYZus{}data}\PY{p}{,}
+                 \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProsusAI\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{template}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plotly\PYZus{}white}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target vs Sentiment Score result}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}traces}\PY{p}{(}\PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,}
+                              \PY{n}{line}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+                                        \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DarkSlateGrey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{opacity}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,}
+                  \PY{n}{selector}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{markers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{px}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{data\PYZus{}frame}\PY{o}{=}\PY{n}{aapl\PYZus{}data}\PY{p}{,}
+                 \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mrm8488\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProsusAI\PYZus{}sentiment\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{template}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{plotly\PYZus{}white}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{n}{width}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{500}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Target vs Sentiment Score result}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{update\PYZus{}traces}\PY{p}{(}\PY{n}{marker}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,}
+                              \PY{n}{line}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{width}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+                                        \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DarkSlateGrey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{opacity}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,}
+                  \PY{n}{selector}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{markers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \section{5. Összefoglalás}\label{uxf6sszefoglaluxe1s}
+
+    \section{6. Summary}\label{summary}
+
+    \section{7 Irodalomjegyzék}\label{irodalomjegyzuxe9k}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
