@@ -122,6 +122,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\data\output\MS_sentiment.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\output\MU_sentiment.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
