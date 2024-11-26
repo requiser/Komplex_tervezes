@@ -31,13 +31,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\data\input\raw\source\analyst_ratings_processed.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\src\data\input\raw\source_1\AppleFinalData.csv">
           <value>
             <Attribute>

@@ -7,3 +7,5 @@ https://github.com/dataquestio/project-walkthroughs/tree/master/sp_500
 https://www.kaggle.com/datasets/BidecInnovations/stock-price-and-news-realted-to-it
 
 https://www.kaggle.com/datasets/miguelaenlle/massive-stock-news-analysis-db-for-nlpbacktests/data
+
+https://gitlab.com/imre-piller/me-courses
