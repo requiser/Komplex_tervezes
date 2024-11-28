@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\data\input\processed\source\NVDA.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\data\input\processed\source_1\AppleNewsStock.csv">
           <value>
             <Attribute>
@@ -25,6 +32,13 @@
           </value>
         </entry>
         <entry key="\src\data\input\processed\source_1\MicrosoftNewsStock.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\input\raw\source\analyst_ratings_processed.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -123,6 +137,13 @@
           </value>
         </entry>
         <entry key="\src\data\output\MU_sentiment.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\data\output\NVDA_sentiment.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
