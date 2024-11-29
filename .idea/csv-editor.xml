@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\data\input\processed\source\MU.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\data\input\processed\source\NVDA.csv">
           <value>
             <Attribute>
@@ -39,13 +46,6 @@
           </value>
         </entry>
         <entry key="\src\data\input\processed\source_1\MicrosoftNewsStock.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\src\data\input\raw\source\analyst_ratings_processed.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
